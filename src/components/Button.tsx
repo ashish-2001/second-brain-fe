@@ -4,7 +4,8 @@ interface ButtonInterface{
     variant: "Primary" | "Secondary",
     text?: string,
     startIcon?: ReactElement
-    onClick?: () => void
+    onClick?: () => void;
+    fullWidth?: boolean;
 }
 
 const variantClasses = {
@@ -14,10 +15,10 @@ const variantClasses = {
 
 const defaultStyles = "px-4 py-2 rounded-md font-light flex"
 
-function Button ({variant, text, startIcon, onClick} : ButtonInterface){
+function Button ({variant, text, startIcon, onClick, fullWidth} : ButtonInterface){
     return (
         <div>
-            <button className={`${variantClasses[variant] + " " + defaultStyles} ${startIcon ? "cursor-pointer" : "pr-6 cursor-pointer"} hover:scale-105 duration-200 transition-all`} onClick={onClick}> <div className="pr-2">{startIcon}</div> {text}</button>
+            <button className={`${variantClasses[variant] + " " + defaultStyles + `${fullWidth  ? " w-full items-center justify-center" : "" }` } ${startIcon ? "cursor-pointer" : "pr-6 cursor-pointer"} hover:scale-105 duration-200 transition-all`} onClick={onClick}> <div className="pr-2">{startIcon}</div> {text}</button>
         </div>
     )
 }
