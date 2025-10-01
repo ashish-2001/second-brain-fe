@@ -9,15 +9,15 @@ function Signin(){
 
 
         const navigate = useNavigate()
-        const usernameRef = useRef<HTMLInputElement>();
-        const passwordRef = useRef<HTMLInputElement>();
+        const usernameRef = useRef<HTMLInputElement>(null);
+        const passwordRef = useRef<HTMLInputElement>(null);
 
     async function signin(){
                 
                 const username = usernameRef.current?.value;
                 const password = passwordRef.current?.value;
         
-            const response: Response = await axios.post(BACKEND_URL + "/api/v1/signin", {
+            const response = await axios.post(BACKEND_URL + "/api/v1/signin", {
 
                     username,
                     password

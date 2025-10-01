@@ -6,7 +6,7 @@ interface cardProps {
     type: "Twitter" | "Youtube"
 }
 
-function Card({title, link, type}: cardProps){
+function Card({type, link, title}: cardProps){
     return ( <div>
         <div className="p-4 bg-white rounded-md border-gray-200 max-w-76 border min-h-48 min-w-72">
             <div className="flex justify-between">

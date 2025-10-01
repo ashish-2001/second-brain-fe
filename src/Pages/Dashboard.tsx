@@ -5,11 +5,17 @@ import { PlusIcon } from '../icons/PlusIcon';
 import { ShareIcon } from '../icons/ShareIcon';
 import { CreateContentModal } from '../components/CreateContentModal';
 import { Sidebar } from '../components/Sidebar';
+import { useContent } from '../hooks/useContent';
+import { BACKEND_URL } from '../config';
+import axios from "axios";
+
 
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const contents = useContent();
 
   return (
     <div>
@@ -22,15 +28,25 @@ function Dashboard() {
           } onClick={() => setSidebarOpen(true)}/>
           <div className='flex gap-2'>
             <Button variant='Primary' startIcon={<PlusIcon/>} text={"Add Content"} onClick={() => setShowModal(true)}/>
-            <Button variant='Secondary' startIcon={<ShareIcon/>} text={"Share"} />
+            <Button variant='Secondary' startIcon={<ShareIcon/>} text={"Share"} onClick={async () => { const response =  await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
+              share: true
+            },{
+              headers:{
+                "Authorization": localStorage.getItem("token")
+              }
+            })
+
+            const shareUrl = `http://localhost:5500/share/${response.data.hash}`;
+            alert(shareUrl);
+          }}/>
           </div>
         </div>
         <div className='flex p-4'>
         <CreateContentModal open={showModal} onClose={() => setShowModal(false)}/>
         
         <div className='flex gap-4'>
-          <Card type='Twitter' link="https://x.com/kirat_tw/status/1633685473821425666" title='First Tweet'/>
-          <Card type='Youtube' link='https://www.youtube.com/watch?v=Kv_1wzPXUu0' title='First Video'/>
+          {contents.map((link, type, title) => <Card type={type} link={link} title={title}/> )}
+          
         </div>
       </div>
     </div>
